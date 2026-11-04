@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Wells Fargo Mobile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            wfRed: '#D71E28',
+            wfDarkRed: '#B3141D',
+            wfGold: '#F4B223',
+            wfYellow: '#FFCE00'
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .wf-sky-gradient {
+      background: linear-gradient(180deg, #b0c7de 0%, #c5d4e6 20%, #d8d4e5 45%, #e8e2eb 70%, #ebd7d0 100%);
+      background-attachment: fixed;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .wf-card {
+      background: #FFFFFF;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    .fargo-logo {
+      background: linear-gradient(135deg, #741d72 0%, #9c27b0 100%);
+    }
+    .pin-input {
+      width: 48px;
+      height: 54px;
+      font-size: 24px;
+      text-align: center;
+      font-weight: 700;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.15s ease-in-out;
+    }
+    .pin-input:focus {
+      border-color: #D71E28;
+      box-shadow: 0 0 0 3px rgba(215, 30, 40, 0.15);
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-800 antialiased flex justify-center items-start min-h-screen sm:py-6">
+
+  <!-- Mobile Device Container -->
+  <div class="w-full max-w-md min-h-screen bg-slate-100 flex flex-col relative overflow-hidden sm:rounded-[36px] sm:shadow-2xl sm:border-[6px] sm:border-slate-800">
+
+    <!-- ==================== SCREEN 1: LOGIN (NOT PREFILLED) ==================== -->
+    <div id="loginScreen" class="flex-1 flex flex-col justify-between bg-white px-7 py-8 relative z-20">
+      <div>
+        <!-- Official Logo Header -->
+        <div class="flex flex-col items-center pt-2 pb-6 text-center">
+          <img src="data:image/png;base64,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" alt="Wells Fargo" class="h-14 object-contain mb-1" />
+          <span class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase">Mobile Banking Portal</span>
+        </div>
+
+        <div class="mt-2 mb-6">
+          <h1 class="text-2xl font-bold text-slate-900">Sign On</h1>
+          <p class="text-xs text-slate-500 mt-1">Authorized Account Access</p>
+        </div>
+
+        <form id="loginForm" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Username</label>
+            <input type="text" id="loginUsername" required autocomplete="off" placeholder="Enter username" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-wfRed focus:outline-none text-slate-900 font-semibold text-sm placeholder:font-normal placeholder:text-slate-400" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Password</label>
+            <input type="password" id="loginPassword" required placeholder="Enter password" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-wfRed focus:outline-none text-slate-900 font-semibold text-sm placeholder:font-normal placeholder:text-slate-400" />
+          </div>
+
+          <div id="loginError" class="hidden text-xs text-wfRed font-semibold bg-red-50 p-2.5 rounded-lg border border-red-200">
+            Invalid username or password. Please try again.
+          </div>
+
+          <div class="flex items-center justify-between text-xs pt-1">
+            <label class="flex items-center space-x-2 text-slate-600">
+              <input type="checkbox" class="rounded text-wfRed focus:ring-wfRed" />
+              <span>Save username</span>
+            </label>
+            <a href="#" class="text-wfRed font-semibold hover:underline">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="w-full bg-wfRed hover:bg-wfDarkRed text-white font-bold py-3.5 rounded-xl shadow-md transition duration-150 active:scale-[0.98] mt-3 flex items-center justify-center space-x-2">
+            <span>Sign On</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </div>
+
+      <div class="text-center pt-6 border-t border-slate-100">
+        <p class="text-xs text-slate-400">Wells Fargo &bull; Equal Housing Lender &bull; Member FDIC</p>
+      </div>
+    </div>
+
+    <!-- ==================== 3-SECOND AUTHENTICATION MODAL ==================== -->
+    <div id="authModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center px-6">
+      <div class="bg-white rounded-2xl p-7 max-w-xs w-full shadow-2xl flex flex-col items-center text-center">
+        <div class="relative w-16 h-16 mb-4 flex items-center justify-center">
+          <div class="absolute inset-0 rounded-full border-4 border-slate-100"></div>
+          <div class="absolute inset-0 rounded-full border-4 border-wfRed border-t-transparent animate-spin"></div>
+          <i data-lucide="shield-check" class="w-7 h-7 text-wfRed"></i>
+        </div>
+        <h3 class="text-base font-bold text-slate-900 mb-1">Authenticating</h3>
+        <p class="text-xs text-slate-500 leading-relaxed">Verifying biometric security and credentials with Wells Fargo SafeSync&trade;...</p>
+        <div class="w-full bg-slate-100 rounded-full h-1.5 mt-5 overflow-hidden">
+          <div id="authProgressBar" class="bg-wfRed h-full w-0 transition-all duration-[3000ms] ease-linear"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SECURITY PIN VERIFICATION MODAL (PIN: 2402) ==================== -->
+    <div id="pinModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center px-6">
+      <div class="bg-white rounded-2xl p-6 max-w-xs w-full shadow-2xl text-center">
+        <div class="w-12 h-12 bg-red-100 text-wfRed rounded-full mx-auto flex items-center justify-center mb-3">
+          <i data-lucide="key-round" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-base font-bold text-slate-900 mb-1">Security PIN Verification</h3>
+        <p class="text-xs text-slate-500 mb-5">Enter your 4-digit security PIN to authorize this device session</p>
+
+        <form id="pinForm" class="space-y-4">
+          <div class="flex justify-center space-x-2.5">
+            <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="pin-input" id="pinDigit1" required />
+            <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="pin-input" id="pinDigit2" required />
+            <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="pin-input" id="pinDigit3" required />
+            <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="pin-input" id="pinDigit4" required />
+          </div>
+
+          <div id="pinError" class="hidden text-xs text-wfRed font-semibold bg-red-50 p-2 rounded-lg border border-red-200">
+            Incorrect PIN. Access Denied.
+          </div>
+
+          <button type="submit" class="w-full bg-wfRed hover:bg-wfDarkRed text-white font-bold py-3 rounded-xl text-xs shadow mt-2">
+            Authorize &amp; Continue
+          </button>
+
+          <button type="button" onclick="cancelPinVerification()" class="w-full text-slate-500 hover:text-slate-800 text-xs font-semibold py-1">
+            Cancel Sign On
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==================== SCREEN 2: MAIN APP DASHBOARD ==================== -->
+    <div id="appScreen" class="hidden flex-1 flex flex-col relative min-h-screen pb-20 wf-sky-gradient overflow-y-auto hide-scrollbar">
+
+      <!-- App Top Bar (Ask Fargo + Notifications + Sign off) -->
+      <div class="px-5 pt-4 pb-2 flex items-center justify-between z-10">
+        <div class="flex items-center bg-white/95 rounded-full px-3.5 py-1.5 shadow-sm border border-white/60 space-x-2 flex-1 max-w-[200px]">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
+          <span class="text-xs text-slate-700 font-medium flex-1">Ask Fargo</span>
+          <div class="w-5 h-5 rounded-full fargo-logo flex items-center justify-center text-white text-[10px] font-bold shadow-sm">
+            f&#149;
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-4 pl-3">
+          <button class="relative text-slate-700 focus:outline-none">
+            <i data-lucide="bell" class="w-5 h-5"></i>
+            <span class="absolute -top-1 -right-1.5 bg-wfRed text-white text-[9px] font-bold px-1 rounded-full leading-tight">9+</span>
+          </button>
+          <button id="signOffBtn" class="text-xs font-semibold text-slate-800 hover:text-wfRed">
+            Sign off
+          </button>
+        </div>
+      </div>
+
+      <!-- Greeting & User Header -->
+      <div class="px-6 pt-5 pb-3">
+        <p class="text-[28px] leading-tight font-medium text-slate-800 tracking-tight">Good afternoon,</p>
+        <p class="text-[32px] leading-tight font-semibold text-slate-900 -mt-0.5">Susan</p>
+      </div>
+
+      <!-- Accounts Section -->
+      <div class="px-5 space-y-3.5">
+
+        <!-- Card 1: Everyday Checking -->
+        <div class="wf-card p-5 cursor-pointer active:scale-[0.99] transition duration-150" onclick="openTransactions('checking')">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[12px] font-bold tracking-wider text-slate-700 uppercase">EVERYDAY CHECKING ...0987</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+          </div>
+          <div class="text-[32px] font-bold text-slate-900 tracking-tight">$756,000.00</div>
+          <p class="text-[11px] text-slate-500 font-medium">Available balance</p>
+        </div>
+
+        <!-- Card 2: Way2Save -->
+        <div class="wf-card p-5 cursor-pointer active:scale-[0.99] transition duration-150" onclick="openTransactions('savings')">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[12px] font-bold tracking-wider text-slate-700 uppercase">WAY2SAVE ...3478</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+          </div>
+          <div class="text-[32px] font-bold text-slate-900 tracking-tight">$124,500.00</div>
+          <p class="text-[11px] text-slate-500 font-medium">Available balance</p>
+        </div>
+
+        <!-- Banner Card 1: FICO Score Widget -->
+        <div class="wf-card p-4 flex items-center space-x-3.5">
+          <div class="w-12 h-12 rounded-full border-2 border-emerald-600 flex flex-col items-center justify-center flex-shrink-0 text-emerald-800">
+            <span class="text-xs font-black">815</span>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-slate-900 leading-snug">Your FICO&reg; Score went up 10 points</p>
+            <p class="text-[10px] text-slate-500 mt-0.5">Updated 09/28/2026</p>
+          </div>
+        </div>
+
+        <!-- Banner Card 2: Earn Bonus Points -->
+        <div class="wf-card p-4 flex items-center space-x-3.5">
+          <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="star" class="w-5 h-5"></i>
+          </div>
+          <div class="flex-1">
+            <p class="text-xs font-bold text-slate-900">Earn 20k bonus points</p>
+            <p class="text-[10px] text-slate-500">With Wells Fargo Premier Autograph Card</p>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
+        </div>
+
+      </div>
+
+      <!-- Bottom Navigation Bar -->
+      <div class="fixed bottom-0 w-full max-w-md bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 px-3 z-30 sm:rounded-b-[30px]">
+        <div class="grid grid-cols-5 text-center">
+          <button onclick="switchTab('accounts')" id="tabAccounts" class="flex flex-col items-center justify-center text-wfRed">
+            <i data-lucide="home" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold mt-1">Accounts</span>
+          </button>
+          <button onclick="openDepositModal()" id="tabDeposit" class="flex flex-col items-center justify-center text-slate-600 hover:text-slate-900">
+            <i data-lucide="arrow-down-to-dot" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium mt-1">Deposit</span>
+          </button>
+          <button onclick="openTransferModal()" id="tabTransfer" class="flex flex-col items-center justify-center text-slate-600 hover:text-slate-900">
+            <i data-lucide="arrow-left-right" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium mt-1">Transfer</span>
+          </button>
+          <button onclick="openTransactions('all')" id="tabHistory" class="flex flex-col items-center justify-center text-slate-600 hover:text-slate-900">
+            <i data-lucide="history" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium mt-1">History</span>
+          </button>
+          <button onclick="openProfileModal()" id="tabMenu" class="flex flex-col items-center justify-center text-slate-600 hover:text-slate-900 relative">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium mt-1">Menu</span>
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&auto=format&fit=crop&q=80" class="w-3.5 h-3.5 rounded-full absolute top-0 right-4 border border-white object-cover" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL: TRANSACTIONS LIST (50 TRANSACTIONS: 2020 - SEPT 2026) ==================== -->
+    <div id="txModal" class="hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-xs flex items-end sm:items-center justify-center">
+      <div class="bg-white w-full max-w-md max-h-[88vh] rounded-t-3xl sm:rounded-2xl flex flex-col overflow-hidden shadow-2xl animate-in slide-in-from-bottom duration-200">
+        <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base" id="txModalTitle">Transfer &amp; Account History</h3>
+            <p class="text-xs text-slate-500" id="txModalSubtitle">50 Transactions &bull; 2020 through September 2026</p>
+          </div>
+          <button onclick="closeTxModal()" class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-300">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="bg-wfRed text-white p-5 text-center">
+          <span class="text-xs font-semibold uppercase tracking-wider text-red-100" id="txModalBalanceLabel">Total Balance</span>
+          <h2 class="text-3xl font-black mt-0.5" id="txModalBalance">$880,500.00</h2>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="px-4 py-2.5 bg-slate-100 border-b border-slate-200 space-y-2">
+          <div class="flex justify-between items-center text-xs text-slate-600">
+            <span class="font-bold uppercase tracking-wider">Posted History</span>
+            <span id="txCountBadge" class="bg-slate-200 px-2.5 py-0.5 rounded-full font-bold">50 total</span>
+          </div>
+          <div class="flex space-x-1.5 overflow-x-auto hide-scrollbar pb-0.5 text-[11px] font-semibold">
+            <button onclick="filterTransactions('all')" id="txFilterAll" class="px-3 py-1 rounded-full bg-slate-900 text-white whitespace-nowrap shadow-xs">All (50)</button>
+            <button onclick="filterTransactions('wire')" id="txFilterWire" class="px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 whitespace-nowrap">Wire Transfers</button>
+            <button onclick="filterTransactions('local')" id="txFilterLocal" class="px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 whitespace-nowrap">Local Transfers</button>
+            <button onclick="filterTransactions('credit')" id="txFilterCredit" class="px-3 py-1 rounded-full bg-white text-emerald-700 border border-slate-200 hover:bg-slate-50 whitespace-nowrap">Deposits (+)</button>
+            <button onclick="filterTransactions('debit')" id="txFilterDebit" class="px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 whitespace-nowrap">Debits (-)</button>
+          </div>
+        </div>
+
+        <div id="txItemsContainer" class="p-4 space-y-2.5 overflow-y-auto flex-1 hide-scrollbar">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL: DEPOSIT OPTIONS (BY CARD OR CHECK) ==================== -->
+    <div id="depositModal" class="hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-xs flex items-end sm:items-center justify-center">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center pb-4 border-b border-slate-100">
+          <div>
+            <h3 class="font-bold text-lg text-slate-900">Deposit Funds</h3>
+            <p class="text-xs text-slate-500">Select your deposit method</p>
+          </div>
+          <button onclick="closeDepositModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="mt-4 space-y-3">
+          <!-- Method 1: Deposit by Card -->
+          <div onclick="triggerDepositRestriction('card')" class="p-4 rounded-2xl border border-slate-200 hover:border-wfRed hover:bg-red-50/20 cursor-pointer transition flex items-center justify-between group">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-12 h-12 rounded-xl bg-red-100 text-wfRed flex items-center justify-center group-hover:scale-105 transition">
+                <i data-lucide="credit-card" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900">Deposit by Card</h4>
+                <p class="text-xs text-slate-500">Instant deposit via linked debit or credit card</p>
+              </div>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-400 group-hover:text-wfRed transition"></i>
+          </div>
+
+          <!-- Method 2: Deposit by Check -->
+          <div onclick="triggerDepositRestriction('check')" class="p-4 rounded-2xl border border-slate-200 hover:border-wfRed hover:bg-red-50/20 cursor-pointer transition flex items-center justify-between group">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center group-hover:scale-105 transition">
+                <i data-lucide="camera" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900">Deposit by Check</h4>
+                <p class="text-xs text-slate-500">Mobile check deposit using your device camera</p>
+              </div>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-slate-400 group-hover:text-wfRed transition"></i>
+          </div>
+        </div>
+
+        <div class="mt-5 p-3.5 bg-slate-50 rounded-xl border border-slate-100 flex items-start space-x-2.5 text-slate-500 text-xs">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5"></i>
+          <span>Deposits subject to Wells Fargo verification and standard hold schedules.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL: MAKE TRANSFER (WIRE OR LOCAL TRANSFER) ==================== -->
+    <div id="transferModal" class="hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-xs flex items-end sm:items-center justify-center">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center pb-4 border-b border-slate-100">
+          <div>
+            <h3 class="font-bold text-lg text-slate-900">Transfer &amp; Pay</h3>
+            <p class="text-xs text-slate-500">Wire or local transfer from your account</p>
+          </div>
+          <button onclick="closeTransferModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <form id="transferForm" class="mt-4 space-y-4">
+          <!-- 2 Options: Wire Transfer or Local Transfer -->
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Transfer Method</label>
+            <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl">
+              <button type="button" id="typeWireBtn" onclick="selectTransferType('wire')" class="py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 bg-white text-wfRed shadow-sm">
+                <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                <span>Wire Transfer</span>
+              </button>
+              <button type="button" id="typeLocalBtn" onclick="selectTransferType('local')" class="py-2.5 rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 text-slate-600 hover:text-slate-900">
+                <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
+                <span>Local Transfer</span>
+              </button>
+            </div>
+            <input type="hidden" id="transferType" value="wire" />
+          </div>
+
+          <!-- From Account -->
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">From Account</label>
+            <select id="transferFrom" class="w-full px-3 py-2.5 border border-slate-300 rounded-xl bg-white text-sm font-semibold focus:ring-2 focus:ring-wfRed focus:outline-none">
+              <option value="checking">Everyday Checking ...0987 ($756,000.00)</option>
+              <option value="savings">Way2Save Savings ...3478 ($124,500.00)</option>
+            </select>
+          </div>
+
+          <!-- Input Account Number -->
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Account Number</label>
+            <input type="text" id="transferAccountNumber" placeholder="Enter recipient account number" required class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-wfRed focus:outline-none placeholder:text-slate-400" />
+          </div>
+
+          <!-- Bank Name -->
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Bank Name</label>
+            <input type="text" id="transferBankName" placeholder="Enter recipient bank name" required class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-wfRed focus:outline-none placeholder:text-slate-400" />
+          </div>
+
+          <!-- Amount -->
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Amount ($ USD)</label>
+            <div class="relative">
+              <span class="absolute left-3 top-2.5 text-lg font-bold text-slate-500">$</span>
+              <input type="number" step="0.01" min="1" id="transferAmount" placeholder="0.00" required class="w-full pl-8 pr-4 py-2.5 border border-slate-300 rounded-xl text-lg font-bold focus:ring-2 focus:ring-wfRed focus:outline-none placeholder:text-slate-400" />
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Description</label>
+            <input type="text" id="transferDescription" placeholder="Enter transfer description or purpose" class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-wfRed focus:outline-none placeholder:text-slate-400" />
+          </div>
+
+          <button type="submit" id="submitTransferBtn" class="w-full bg-wfRed hover:bg-wfDarkRed text-white font-bold py-3.5 rounded-xl shadow mt-2 transition active:scale-[0.98]">
+            Confirm &amp; Send Transfer
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL: RESTRICTION STATUS ALERT (REFERRING TO SUPPORT) ==================== -->
+    <div id="transferStatusModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center px-6">
+      <div class="bg-white rounded-2xl p-6 max-w-xs w-full shadow-2xl text-center">
+        <div class="w-14 h-14 rounded-full mx-auto flex items-center justify-center mb-3 bg-red-100 text-wfRed">
+          <i data-lucide="shield-alert" class="w-8 h-8"></i>
+        </div>
+        <h3 id="restrictionModalTitle" class="text-lg font-bold text-slate-900 mb-1">Account Suspended</h3>
+        <p id="restrictionModalMessage" class="text-xs text-slate-600 leading-relaxed mb-5">
+          Your account is suspended and restricted from making transfers. Please contact Wells Fargo Customer Support at 1-800-869-3557 or visit your nearest branch with valid identification to restore transfer privileges.
+        </p>
+        <div class="space-y-2">
+          <a href="tel:18008693557" class="w-full bg-wfRed hover:bg-wfDarkRed text-white py-2.5 rounded-xl text-xs font-bold flex items-center justify-center space-x-2 shadow transition">
+            <i data-lucide="phone" class="w-4 h-4"></i>
+            <span>Call Customer Support</span>
+          </a>
+          <button onclick="closeStatusModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-xs font-bold transition">
+            Dismiss
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== MODAL: USER PROFILE (SUSAN J WILLIAM FULL DETAILS) ==================== -->
+    <div id="profileModal" class="hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-xs flex items-end sm:items-center justify-center">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center pb-4 border-b border-slate-100">
+          <h3 class="font-bold text-lg text-slate-900">Customer Profile</h3>
+          <button onclick="closeProfileModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="py-5 flex flex-col items-center text-center">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&auto=format&fit=crop&q=80" class="w-24 h-24 rounded-full border-4 border-wfRed object-cover shadow-md mb-2" />
+          </div>
+          <h4 class="text-xl font-bold text-slate-900">Susan J William</h4>
+          <p class="text-xs font-semibold text-slate-600">Doctor</p>
+          <span class="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-0.5 rounded-full font-semibold mt-1">Transfers Restricted &bull; Branch Verification Required</span>
+        </div>
+
+        <div class="space-y-2.5 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-700">
+          <div class="flex justify-between py-1 border-b border-slate-200">
+            <span class="text-slate-500">Username</span>
+            <span class="font-bold font-mono">susanwilliam</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-slate-200">
+            <span class="text-slate-500">Date of Birth</span>
+            <span class="font-bold">6/03/1981</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-slate-200">
+            <span class="text-slate-500">Gender</span>
+            <span class="font-bold">Female</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-slate-200">
+            <span class="text-slate-500">Email Address</span>
+            <span class="font-bold">susanwilli355@gmail.com</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-slate-200">
+            <span class="text-slate-500">Phone</span>
+            <span class="font-bold">+1 (778) 652-9282</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-slate-200">
+            <span class="text-slate-500">Security PIN</span>
+            <span class="font-bold font-mono">**** (2402)</span>
+          </div>
+          <div class="flex justify-between py-1 border-b border-slate-200">
+            <span class="text-slate-500">Location</span>
+            <span class="font-bold">Topeka, Kansas, USA</span>
+          </div>
+          <div class="flex justify-between py-1">
+            <span class="text-slate-500">Address</span>
+            <span class="font-bold text-right text-[11px] max-w-[200px]">1847 Meadowbrook Lane, Topeka, KS 66604</span>
+          </div>
+        </div>
+
+        <button onclick="logout(); closeProfileModal();" class="w-full mt-5 border border-red-300 text-wfRed font-bold py-3 rounded-xl hover:bg-red-50 text-sm">
+          Sign Out
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Expected credentials
+    const VALID_USER = "susanwilliam";
+    const VALID_PASS = "Mentor247@";
+    const REQUIRED_PIN = "2402";
+
+    // 30 realistic transactions ending at September 2026
+    const transactionsList = [
+      { id: "tx-1", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2026-09-30", category: "Medical Payroll", status: "Completed" },
+      { id: "tx-2", title: "Surgical Equipment Supplies Co", type: "debit", amount: 4250.00, date: "2026-09-29", category: "Professional", status: "Completed" },
+      { id: "tx-3", title: "Kansas State Medical License Renewal", type: "debit", amount: 750.00, date: "2026-09-28", category: "Licensing", status: "Completed" },
+      { id: "tx-4", title: "Dividend Disbursement WF Advisory", type: "credit", amount: 8420.00, date: "2026-09-27", category: "Investments", status: "Completed" },
+      { id: "tx-5", title: "Whole Foods Market Topeka", type: "debit", amount: 264.18, date: "2026-09-26", category: "Groceries", status: "Completed" },
+      { id: "tx-6", title: "Porsche Financial Services", type: "debit", amount: 1845.00, date: "2026-09-25", category: "Automotive", status: "Completed" },
+      { id: "tx-7", title: "Nordstrom Fashion Valley", type: "debit", amount: 890.50, date: "2026-09-24", category: "Shopping", status: "Completed" },
+      { id: "tx-8", title: "Zelle to Emily Vance MD", type: "credit", amount: 1200.00, date: "2026-09-22", category: "Transfer", status: "Completed" },
+      { id: "tx-9", title: "The Capital Grille", type: "debit", amount: 342.60, date: "2026-09-20", category: "Dining", status: "Completed" },
+      { id: "tx-10", title: "Delta Air Lines First Class", type: "debit", amount: 1420.00, date: "2026-09-18", category: "Travel", status: "Completed" },
+      { id: "tx-11", title: "The Ritz-Carlton Maui", type: "debit", amount: 3850.00, date: "2026-09-16", category: "Travel", status: "Completed" },
+      { id: "tx-12", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2026-09-15", category: "Medical Payroll", status: "Completed" },
+      { id: "tx-13", title: "Evergy Kansas Electric", type: "debit", amount: 320.40, date: "2026-09-14", category: "Utilities", status: "Completed" },
+      { id: "tx-14", title: "City of Topeka Water Dept", type: "debit", amount: 112.50, date: "2026-09-12", category: "Utilities", status: "Completed" },
+      { id: "tx-15", title: "Apple Store Kansas City", type: "debit", amount: 2199.00, date: "2026-09-10", category: "Electronics", status: "Completed" },
+      { id: "tx-16", title: "Equinox Fitness Club", type: "debit", amount: 280.00, date: "2026-09-08", category: "Health", status: "Completed" },
+      { id: "tx-17", title: "Amazon Business Prime", type: "debit", amount: 340.10, date: "2026-09-06", category: "Supplies", status: "Completed" },
+      { id: "tx-18", title: "Starbucks Reserve", type: "debit", amount: 14.80, date: "2026-09-05", category: "Dining", status: "Completed" },
+      { id: "tx-19", title: "American Medical Association Dues", type: "debit", amount: 620.00, date: "2026-09-03", category: "Professional", status: "Completed" },
+      { id: "tx-20", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2026-09-01", category: "Medical Payroll", status: "Completed" },
+      { id: "tx-21", title: "Target Superstore", type: "debit", amount: 142.30, date: "2026-08-29", category: "Shopping", status: "Completed" },
+      { id: "tx-22", title: "Chevron Gas Station", type: "debit", amount: 78.40, date: "2026-08-27", category: "Automotive", status: "Completed" },
+      { id: "tx-23", title: "AT&T Business Wireless", type: "debit", amount: 185.00, date: "2026-08-25", category: "Telecom", status: "Completed" },
+      { id: "tx-24", title: "Tiffany & Co.", type: "debit", amount: 1450.00, date: "2026-08-23", category: "Shopping", status: "Completed" },
+      { id: "tx-25", title: "CVS Pharmacy Prescription", type: "debit", amount: 42.10, date: "2026-08-20", category: "Health", status: "Completed" },
+      { id: "tx-26", title: "Wire Inward - Consulting Honorarium", type: "credit", amount: 15000.00, date: "2026-08-18", category: "Consulting", status: "Completed" },
+      { id: "tx-27", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2026-08-15", category: "Medical Payroll", status: "Completed" },
+      { id: "tx-28", title: "Blue Cross Blue Shield Health Co-Pay", type: "debit", amount: 95.00, date: "2026-08-12", category: "Medical", status: "Completed" },
+      { id: "tx-29", title: "Home Depot Topeka", type: "debit", amount: 430.80, date: "2026-08-08", category: "Home", status: "Completed" },
+      { id: "tx-30", title: "Wells Fargo Cash Rewards Credit", type: "credit", amount: 450.00, date: "2026-08-05", category: "Rewards", status: "Completed" }
+    ];
+
+    window.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+      updateClock();
+      setInterval(updateClock, 30000);
+      setupPinInputs();
+    });
+
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      let minutes = now.getMinutes();
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      const clockEl = document.getElementById("liveClock");
+      if (clockEl) clockEl.innerText = hours + ":" + minutes;
+    }
+
+    // Step 1: Login Form (Not prefilled, user types credentials)
+    document.getElementById("loginForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const uname = document.getElementById("loginUsername").value.trim();
+      const pwd = document.getElementById("loginPassword").value.trim();
+      const errEl = document.getElementById("loginError");
+
+      if (uname !== VALID_USER || pwd !== VALID_PASS) {
+        errEl.classList.remove("hidden");
+        return;
+      }
+      errEl.classList.add("hidden");
+
+      // Launch 3-second biometric SafeSync modal
+      const authModal = document.getElementById("authModal");
+      const progressBar = document.getElementById("authProgressBar");
+      authModal.classList.remove("hidden");
+
+      setTimeout(() => {
+        progressBar.style.width = "100%";
+      }, 50);
+
+      // Exactly 3000ms delay, then ask for PIN (2402)
+      setTimeout(() => {
+        authModal.classList.add("hidden");
+        progressBar.style.width = "0%";
+        openPinModal();
+      }, 3000);
+    });
+
+    // Step 2: PIN Verification Modal
+    function openPinModal() {
+      document.getElementById("pinModal").classList.remove("hidden");
+      document.getElementById("pinError").classList.add("hidden");
+      clearPinInputs();
+      document.getElementById("pinDigit1").focus();
+    }
+
+    function cancelPinVerification() {
+      document.getElementById("pinModal").classList.add("hidden");
+      clearPinInputs();
+    }
+
+    function setupPinInputs() {
+      const inputs = [
+        document.getElementById("pinDigit1"),
+        document.getElementById("pinDigit2"),
+        document.getElementById("pinDigit3"),
+        document.getElementById("pinDigit4")
+      ];
+
+      inputs.forEach((input, idx) => {
+        input.addEventListener("input", (e) => {
+          if (input.value.length === 1 && idx < inputs.length - 1) {
+            inputs[idx + 1].focus();
+          }
+        });
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Backspace" && !input.value && idx > 0) {
+            inputs[idx - 1].focus();
+          }
+        });
+      });
+    }
+
+    function clearPinInputs() {
+      document.getElementById("pinDigit1").value = "";
+      document.getElementById("pinDigit2").value = "";
+      document.getElementById("pinDigit3").value = "";
+      document.getElementById("pinDigit4").value = "";
+    }
+
+    document.getElementById("pinForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const p1 = document.getElementById("pinDigit1").value;
+      const p2 = document.getElementById("pinDigit2").value;
+      const p3 = document.getElementById("pinDigit3").value;
+      const p4 = document.getElementById("pinDigit4").value;
+      const enteredPin = p1 + p2 + p3 + p4;
+
+      if (enteredPin !== REQUIRED_PIN) {
+        document.getElementById("pinError").classList.remove("hidden");
+        clearPinInputs();
+        document.getElementById("pinDigit1").focus();
+        return;
+      }
+
+      // Successful PIN match: Load Dashboard
+      document.getElementById("pinModal").classList.add("hidden");
+      document.getElementById("loginScreen").classList.add("hidden");
+      document.getElementById("appScreen").classList.remove("hidden");
+      lucide.createIcons();
+    });
+
+    // Sign off action
+    document.getElementById("signOffBtn").addEventListener("click", logout);
+
+    function logout() {
+      document.getElementById("loginUsername").value = "";
+      document.getElementById("loginPassword").value = "";
+      clearPinInputs();
+      document.getElementById("appScreen").classList.add("hidden");
+      document.getElementById("loginScreen").classList.remove("hidden");
+    }
+
+    // Step 3: Transaction List through September 2026
+    function openTransactions(accountType) {
+      const isChecking = accountType === "checking";
+      document.getElementById("txModalTitle").innerText = isChecking ? "EVERYDAY CHECKING ...0987" : "WAY2SAVE ...3478";
+      document.getElementById("txModalBalance").innerText = isChecking ? "$756,000.00" : "$124,500.00";
+
+      const container = document.getElementById("txItemsContainer");
+      container.innerHTML = "";
+
+      transactionsList.forEach(t => {
+        const isCredit = t.type === "credit";
+        const item = document.createElement("div");
+        item.className = "flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-white hover:bg-slate-50 transition";
+        item.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full ${isCredit ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-700'} flex items-center justify-center font-bold text-xs">
+              ${isCredit ? '<i data-lucide="arrow-down-left" class="w-4 h-4"></i>' : '<i data-lucide="credit-card" class="w-4 h-4"></i>'}
+            </div>
+            <div>
+              <p class="text-xs font-bold text-slate-900 leading-tight">${escapeHtml(t.title)}</p>
+              <div class="flex items-center space-x-2 mt-0.5">
+                <span class="text-[10px] text-slate-400">${t.date}</span>
+                <span class="text-[9px] px-1.5 py-0.2 bg-slate-100 text-slate-600 rounded font-semibold">${t.category || 'General'}</span>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="text-xs font-black ${isCredit ? 'text-emerald-600' : 'text-slate-900'}">
+              ${isCredit ? '+' : '-'}$${Number(t.amount).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </p>
+            <span class="text-[10px] text-slate-400 capitalize">${t.status}</span>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+
+      document.getElementById("txModal").classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeTxModal() {
+      document.getElementById("txModal").classList.add("hidden");
+    }
+
+    // Step 4: Transfer is Always Suspended / Blocked
+    function openTransferModal() {
+      document.getElementById("transferModal").classList.remove("hidden");
+    }
+
+    function closeTransferModal() {
+      document.getElementById("transferModal").classList.add("hidden");
+    }
+
+    document.getElementById("transferForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      closeTransferModal();
+      // Block immediately with suspension notice
+      document.getElementById("transferStatusModal").classList.remove("hidden");
+      lucide.createIcons();
+    });
+
+    function closeStatusModal() {
+      document.getElementById("transferStatusModal").classList.add("hidden");
+    }
+
+    // Step 5: Profile Modal
+    function openProfileModal() {
+      document.getElementById("profileModal").classList.remove("hidden");
+    }
+
+    function closeProfileModal() {
+      document.getElementById("profileModal").classList.add("hidden");
+    }
+
+    function switchTab(name) {
+      if (name !== "accounts") {
+        alert("Section active in live mobile build.");
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+  </script>
+</body>
+</html>
