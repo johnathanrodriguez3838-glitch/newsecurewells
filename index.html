@@ -222,7 +222,7 @@
           </div>
           <div>
             <p class="text-xs font-bold text-slate-900 leading-snug">Your FICO&reg; Score went up 10 points</p>
-            <p class="text-[10px] text-slate-500 mt-0.5">Updated 09/28/2026</p>
+            <p class="text-[10px] text-slate-500 mt-0.5">Updated 09/28/2024</p>
           </div>
         </div>
 
@@ -268,13 +268,13 @@
       </div>
     </div>
 
-    <!-- ==================== MODAL: TRANSACTIONS LIST (60 TRANSACTIONS: 2024 - SEPT 2026) ==================== -->
+    <!-- ==================== MODAL: TRANSACTIONS LIST (75 TRANSACTIONS: 2020 - 2024) ==================== -->
     <div id="txModal" class="hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-xs flex items-end sm:items-center justify-center">
       <div class="bg-white w-full max-w-md max-h-[88vh] rounded-t-3xl sm:rounded-2xl flex flex-col overflow-hidden shadow-2xl animate-in slide-in-from-bottom duration-200">
         <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
           <div>
             <h3 class="font-bold text-slate-900 text-base" id="txModalTitle">Transfer &amp; Account History</h3>
-            <p class="text-xs text-slate-500" id="txModalSubtitle">60 Transactions &bull; 2024 through September 2026</p>
+            <p class="text-xs text-slate-500" id="txModalSubtitle">75 Transactions &bull; 2020 through December 2024</p>
           </div>
           <button onclick="closeTxModal()" class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-300">
             <i data-lucide="x" class="w-4 h-4"></i>
@@ -290,10 +290,10 @@
         <div class="px-4 py-2.5 bg-slate-100 border-b border-slate-200 space-y-2">
           <div class="flex justify-between items-center text-xs text-slate-600">
             <span class="font-bold uppercase tracking-wider">Posted History</span>
-            <span id="txCountBadge" class="bg-slate-200 px-2.5 py-0.5 rounded-full font-bold">60 total</span>
+            <span id="txCountBadge" class="bg-slate-200 px-2.5 py-0.5 rounded-full font-bold">75 total</span>
           </div>
           <div class="flex space-x-1.5 overflow-x-auto hide-scrollbar pb-0.5 text-[11px] font-semibold">
-            <button onclick="filterTransactions('all')" id="txFilterAll" class="px-3 py-1 rounded-full bg-slate-900 text-white whitespace-nowrap shadow-xs">All (60)</button>
+            <button onclick="filterTransactions('all')" id="txFilterAll" class="px-3 py-1 rounded-full bg-slate-900 text-white whitespace-nowrap shadow-xs">All (75)</button>
             <button onclick="filterTransactions('wire')" id="txFilterWire" class="px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 whitespace-nowrap">Wire Transfers</button>
             <button onclick="filterTransactions('local')" id="txFilterLocal" class="px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 whitespace-nowrap">Local Transfers</button>
             <button onclick="filterTransactions('credit')" id="txFilterCredit" class="px-3 py-1 rounded-full bg-white text-emerald-700 border border-slate-200 hover:bg-slate-50 whitespace-nowrap">Deposits (+)</button>
@@ -520,69 +520,684 @@
     const VALID_PASS = "Mentor247@";
     const REQUIRED_PIN = "2402";
 
-    // 60 realistic transactions (2024 through September 2026)
+        // 75 realistic transactions (2020 through 2024)
     const transactionsList = [
-      { id: "tx-1", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2026-09-30", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-2", title: "Surgical Equipment Supplies Co", type: "debit", amount: 4250.00, date: "2026-09-29", category: "Professional", status: "Completed" },
-      { id: "tx-3", title: "Kansas State Medical License Renewal", type: "debit", amount: 750.00, date: "2026-09-28", category: "Licensing", status: "Completed" },
-      { id: "tx-4", title: "Dividend Disbursement WF Advisory", type: "credit", amount: 8420.00, date: "2026-09-27", category: "Investments", status: "Completed" },
-      { id: "tx-5", title: "Whole Foods Market Topeka", type: "debit", amount: 264.18, date: "2026-09-26", category: "Groceries", status: "Completed" },
-      { id: "tx-6", title: "Porsche Financial Services", type: "debit", amount: 1845.00, date: "2026-09-25", category: "Automotive", status: "Completed" },
-      { id: "tx-7", title: "Nordstrom Fashion Valley", type: "debit", amount: 890.50, date: "2026-09-24", category: "Shopping", status: "Completed" },
-      { id: "tx-8", title: "Zelle to Emily Vance MD", type: "credit", amount: 1200.00, date: "2026-09-22", category: "Transfer", status: "Completed" },
-      { id: "tx-9", title: "The Capital Grille", type: "debit", amount: 342.60, date: "2026-09-20", category: "Dining", status: "Completed" },
-      { id: "tx-10", title: "Delta Air Lines First Class", type: "debit", amount: 1420.00, date: "2026-09-18", category: "Travel", status: "Completed" },
-      { id: "tx-11", title: "The Ritz-Carlton Maui", type: "debit", amount: 3850.00, date: "2026-09-16", category: "Travel", status: "Completed" },
-      { id: "tx-12", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2026-09-15", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-13", title: "Evergy Kansas Electric", type: "debit", amount: 320.40, date: "2026-09-14", category: "Utilities", status: "Completed" },
-      { id: "tx-14", title: "City of Topeka Water Dept", type: "debit", amount: 112.50, date: "2026-09-12", category: "Utilities", status: "Completed" },
-      { id: "tx-15", title: "Apple Store Kansas City", type: "debit", amount: 2199.00, date: "2026-09-10", category: "Electronics", status: "Completed" },
-      { id: "tx-16", title: "Equinox Fitness Club", type: "debit", amount: 280.00, date: "2026-09-08", category: "Health", status: "Completed" },
-      { id: "tx-17", title: "Amazon Business Prime", type: "debit", amount: 340.10, date: "2026-09-06", category: "Supplies", status: "Completed" },
-      { id: "tx-18", title: "Starbucks Reserve", type: "debit", amount: 14.80, date: "2026-09-05", category: "Dining", status: "Completed" },
-      { id: "tx-19", title: "American Medical Association Dues", type: "debit", amount: 620.00, date: "2026-09-03", category: "Professional", status: "Completed" },
-      { id: "tx-20", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2026-09-01", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-21", title: "Target Superstore", type: "debit", amount: 142.30, date: "2026-08-29", category: "Shopping", status: "Completed" },
-      { id: "tx-22", title: "Chevron Gas Station", type: "debit", amount: 78.40, date: "2026-08-27", category: "Automotive", status: "Completed" },
-      { id: "tx-23", title: "AT&T Business Wireless", type: "debit", amount: 185.00, date: "2026-08-25", category: "Telecom", status: "Completed" },
-      { id: "tx-24", title: "Tiffany & Co.", type: "debit", amount: 1450.00, date: "2026-08-23", category: "Shopping", status: "Completed" },
-      { id: "tx-25", title: "CVS Pharmacy Prescription", type: "debit", amount: 42.10, date: "2026-08-20", category: "Health", status: "Completed" },
-      { id: "tx-26", title: "Wire Inward - Consulting Honorarium", type: "credit", amount: 15000.00, date: "2026-08-18", category: "Consulting", status: "Completed" },
-      { id: "tx-27", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2026-08-15", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-28", title: "Blue Cross Blue Shield Health Co-Pay", type: "debit", amount: 95.00, date: "2026-08-12", category: "Medical", status: "Completed" },
-      { id: "tx-29", title: "Home Depot Topeka", type: "debit", amount: 430.80, date: "2026-08-08", category: "Home", status: "Completed" },
-      { id: "tx-30", title: "Wells Fargo Cash Rewards Credit", type: "credit", amount: 450.00, date: "2026-08-05", category: "Rewards", status: "Completed" },
-      { id: "tx-31", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2025-12-15", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-32", title: "Porsche Financial Services", type: "debit", amount: 1845.00, date: "2025-12-10", category: "Automotive", status: "Completed" },
-      { id: "tx-33", title: "Nordstrom Fashion Valley", type: "debit", amount: 1120.40, date: "2025-11-28", category: "Shopping", status: "Completed" },
-      { id: "tx-34", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2025-11-15", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-35", title: "Whole Foods Market Topeka", type: "debit", amount: 312.65, date: "2025-11-04", category: "Groceries", status: "Completed" },
-      { id: "tx-36", title: "Surgical Equipment Supplies Co", type: "debit", amount: 3890.00, date: "2025-10-24", category: "Professional", status: "Completed" },
-      { id: "tx-37", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2025-10-15", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-38", title: "Dividend Disbursement WF Advisory", type: "credit", amount: 7650.00, date: "2025-09-30", category: "Investments", status: "Completed" },
-      { id: "tx-39", title: "Delta Air Lines First Class", type: "debit", amount: 1650.00, date: "2025-09-18", category: "Travel", status: "Completed" },
-      { id: "tx-40", title: "AT&T Business Wireless", type: "debit", amount: 185.00, date: "2025-08-25", category: "Telecom", status: "Completed" },
-      { id: "tx-41", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2025-08-15", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-42", title: "The Capital Grille", type: "debit", amount: 285.40, date: "2025-07-22", category: "Dining", status: "Completed" },
-      { id: "tx-43", title: "Wire Inward - Consulting Honorarium", type: "credit", amount: 12500.00, date: "2025-06-30", category: "Consulting", status: "Completed" },
-      { id: "tx-44", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2025-05-15", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-45", title: "Apple Store Kansas City", type: "debit", amount: 1899.00, date: "2025-04-10", category: "Electronics", status: "Completed" },
-      { id: "tx-46", title: "Tiffany & Co.", type: "debit", amount: 2350.00, date: "2024-12-20", category: "Shopping", status: "Completed" },
-      { id: "tx-47", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2024-12-15", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-48", title: "Home Depot Topeka", type: "debit", amount: 560.20, date: "2024-11-25", category: "Home", status: "Completed" },
-      { id: "tx-49", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2024-11-15", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-50", title: "Dividend Disbursement WF Advisory", type: "credit", amount: 8100.00, date: "2024-10-30", category: "Investments", status: "Completed" },
-      { id: "tx-51", title: "The Ritz-Carlton Maui", type: "debit", amount: 4200.00, date: "2024-10-12", category: "Travel", status: "Completed" },
-      { id: "tx-52", title: "Kansas State Medical License Renewal", type: "debit", amount: 750.00, date: "2024-09-28", category: "Licensing", status: "Completed" },
-      { id: "tx-53", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2024-09-15", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-54", title: "Equinox Fitness Club", type: "debit", amount: 280.00, date: "2024-08-20", category: "Health", status: "Completed" },
-      { id: "tx-55", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2024-07-15", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-56", title: "Zelle to Emily Vance MD", type: "credit", amount: 1500.00, date: "2024-06-18", category: "Transfer", status: "Completed" },
-      { id: "tx-57", title: "American Medical Association Dues", type: "debit", amount: 620.00, date: "2024-05-22", category: "Professional", status: "Completed" },
-      { id: "tx-58", title: "Memorial Health Systems Direct Deposit", type: "credit", amount: 48500.00, date: "2024-04-15", category: "Medical Payroll", status: "Completed" },
-      { id: "tx-59", title: "Evergy Kansas Electric", type: "debit", amount: 295.10, date: "2024-03-10", category: "Utilities", status: "Completed" },
-      { id: "tx-60", title: "Wells Fargo Cash Rewards Credit", type: "credit", amount: 380.00, date: "2024-02-14", category: "Rewards", status: "Completed" }
-    ];
+      {
+            "id": "tx-1",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2024-12-30",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-2",
+            "title": "Surgical Equipment Supplies Co",
+            "type": "debit",
+            "amount": 4250,
+            "date": "2024-12-28",
+            "category": "Professional",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-3",
+            "title": "Porsche Financial Services",
+            "type": "debit",
+            "amount": 1845,
+            "date": "2024-12-24",
+            "category": "Automotive",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-4",
+            "title": "Tiffany & Co.",
+            "type": "debit",
+            "amount": 2350,
+            "date": "2024-12-20",
+            "category": "Shopping",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-5",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2024-12-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-6",
+            "title": "Whole Foods Market Topeka",
+            "type": "debit",
+            "amount": 284.5,
+            "date": "2024-12-10",
+            "category": "Groceries",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-7",
+            "title": "Nordstrom Fashion Valley",
+            "type": "debit",
+            "amount": 1120.4,
+            "date": "2024-11-28",
+            "category": "Shopping",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-8",
+            "title": "Home Depot Topeka",
+            "type": "debit",
+            "amount": 560.2,
+            "date": "2024-11-25",
+            "category": "Home",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-9",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2024-11-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-10",
+            "title": "Dividend Disbursement WF Advisory",
+            "type": "credit",
+            "amount": 8100,
+            "date": "2024-10-30",
+            "category": "Investments",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-11",
+            "title": "The Ritz-Carlton Maui",
+            "type": "debit",
+            "amount": 4200,
+            "date": "2024-10-12",
+            "category": "Travel",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-12",
+            "title": "Kansas State Medical License Renewal",
+            "type": "debit",
+            "amount": 750,
+            "date": "2024-09-28",
+            "category": "Licensing",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-13",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2024-09-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-14",
+            "title": "Equinox Fitness Club",
+            "type": "debit",
+            "amount": 280,
+            "date": "2024-08-20",
+            "category": "Health",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-15",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2024-07-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-16",
+            "title": "Zelle to Emily Vance MD",
+            "type": "credit",
+            "amount": 1500,
+            "date": "2024-06-18",
+            "category": "Transfer",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-17",
+            "title": "American Medical Association Dues",
+            "type": "debit",
+            "amount": 620,
+            "date": "2024-05-22",
+            "category": "Professional",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-18",
+            "title": "Evergy Kansas Electric",
+            "type": "debit",
+            "amount": 295.1,
+            "date": "2024-03-10",
+            "category": "Utilities",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-19",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2023-12-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-20",
+            "title": "Porsche Financial Services",
+            "type": "debit",
+            "amount": 1845,
+            "date": "2023-12-05",
+            "category": "Automotive",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-21",
+            "title": "Delta Air Lines First Class",
+            "type": "debit",
+            "amount": 1420,
+            "date": "2023-11-20",
+            "category": "Travel",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-22",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2023-11-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-23",
+            "title": "Apple Store Kansas City",
+            "type": "debit",
+            "amount": 2199,
+            "date": "2023-10-18",
+            "category": "Electronics",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-24",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2023-10-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-25",
+            "title": "Dividend Disbursement WF Advisory",
+            "type": "credit",
+            "amount": 8420,
+            "date": "2023-09-28",
+            "category": "Investments",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-26",
+            "title": "Whole Foods Market Topeka",
+            "type": "debit",
+            "amount": 264.18,
+            "date": "2023-09-14",
+            "category": "Groceries",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-27",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2023-08-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-28",
+            "title": "AT&T Business Wireless",
+            "type": "debit",
+            "amount": 185,
+            "date": "2023-08-02",
+            "category": "Telecom",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-29",
+            "title": "Wire Inward - Consulting Honorarium",
+            "type": "credit",
+            "amount": 15000,
+            "date": "2023-07-20",
+            "category": "Consulting",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-30",
+            "title": "The Capital Grille",
+            "type": "debit",
+            "amount": 342.6,
+            "date": "2023-06-15",
+            "category": "Dining",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-31",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2023-05-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-32",
+            "title": "Surgical Equipment Supplies Co",
+            "type": "debit",
+            "amount": 3890,
+            "date": "2023-04-12",
+            "category": "Professional",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-33",
+            "title": "City of Topeka Water Dept",
+            "type": "debit",
+            "amount": 112.5,
+            "date": "2023-03-18",
+            "category": "Utilities",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-34",
+            "title": "Wells Fargo Cash Rewards Credit",
+            "type": "credit",
+            "amount": 450,
+            "date": "2023-02-10",
+            "category": "Rewards",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-35",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2022-12-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-36",
+            "title": "Tiffany & Co.",
+            "type": "debit",
+            "amount": 1450,
+            "date": "2022-12-12",
+            "category": "Shopping",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-37",
+            "title": "Porsche Financial Services",
+            "type": "debit",
+            "amount": 1845,
+            "date": "2022-11-25",
+            "category": "Automotive",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-38",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2022-11-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-39",
+            "title": "The Ritz-Carlton Maui",
+            "type": "debit",
+            "amount": 3850,
+            "date": "2022-10-22",
+            "category": "Travel",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-40",
+            "title": "Dividend Disbursement WF Advisory",
+            "type": "credit",
+            "amount": 7650,
+            "date": "2022-09-30",
+            "category": "Investments",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-41",
+            "title": "Kansas State Medical License Renewal",
+            "type": "debit",
+            "amount": 750,
+            "date": "2022-09-28",
+            "category": "Licensing",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-42",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2022-09-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-43",
+            "title": "Amazon Business Prime",
+            "type": "debit",
+            "amount": 340.1,
+            "date": "2022-08-14",
+            "category": "Supplies",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-44",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2022-07-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-45",
+            "title": "Equinox Fitness Club",
+            "type": "debit",
+            "amount": 280,
+            "date": "2022-06-20",
+            "category": "Health",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-46",
+            "title": "Zelle to Emily Vance MD",
+            "type": "credit",
+            "amount": 1200,
+            "date": "2022-05-18",
+            "category": "Transfer",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-47",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2022-04-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-48",
+            "title": "Evergy Kansas Electric",
+            "type": "debit",
+            "amount": 320.4,
+            "date": "2022-03-22",
+            "category": "Utilities",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-49",
+            "title": "Target Superstore",
+            "type": "debit",
+            "amount": 142.3,
+            "date": "2022-01-28",
+            "category": "Shopping",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-50",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2021-12-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-51",
+            "title": "Nordstrom Fashion Valley",
+            "type": "debit",
+            "amount": 890.5,
+            "date": "2021-12-08",
+            "category": "Shopping",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-52",
+            "title": "Porsche Financial Services",
+            "type": "debit",
+            "amount": 1845,
+            "date": "2021-11-20",
+            "category": "Automotive",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-53",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2021-11-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-54",
+            "title": "Delta Air Lines First Class",
+            "type": "debit",
+            "amount": 1420,
+            "date": "2021-10-14",
+            "category": "Travel",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-55",
+            "title": "Dividend Disbursement WF Advisory",
+            "type": "credit",
+            "amount": 7200,
+            "date": "2021-09-30",
+            "category": "Investments",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-56",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2021-09-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-57",
+            "title": "Surgical Equipment Supplies Co",
+            "type": "debit",
+            "amount": 4250,
+            "date": "2021-08-25",
+            "category": "Professional",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-58",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2021-07-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-59",
+            "title": "Chevron Gas Station",
+            "type": "debit",
+            "amount": 78.4,
+            "date": "2021-06-19",
+            "category": "Automotive",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-60",
+            "title": "Wire Inward - Consulting Honorarium",
+            "type": "credit",
+            "amount": 12500,
+            "date": "2021-05-24",
+            "category": "Consulting",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-61",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2021-04-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-62",
+            "title": "American Medical Association Dues",
+            "type": "debit",
+            "amount": 620,
+            "date": "2021-03-12",
+            "category": "Professional",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-63",
+            "title": "Wells Fargo Cash Rewards Credit",
+            "type": "credit",
+            "amount": 380,
+            "date": "2021-02-18",
+            "category": "Rewards",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-64",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2020-12-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-65",
+            "title": "Whole Foods Market Topeka",
+            "type": "debit",
+            "amount": 245.8,
+            "date": "2020-11-28",
+            "category": "Groceries",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-66",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2020-11-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-67",
+            "title": "Porsche Financial Services",
+            "type": "debit",
+            "amount": 1845,
+            "date": "2020-10-25",
+            "category": "Automotive",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-68",
+            "title": "Kansas State Medical License Renewal",
+            "type": "debit",
+            "amount": 750,
+            "date": "2020-09-28",
+            "category": "Licensing",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-69",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2020-09-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-70",
+            "title": "Dividend Disbursement WF Advisory",
+            "type": "credit",
+            "amount": 6800,
+            "date": "2020-08-30",
+            "category": "Investments",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-71",
+            "title": "Home Depot Topeka",
+            "type": "debit",
+            "amount": 430.8,
+            "date": "2020-07-22",
+            "category": "Home",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-72",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2020-06-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-73",
+            "title": "AT&T Business Wireless",
+            "type": "debit",
+            "amount": 185,
+            "date": "2020-05-18",
+            "category": "Telecom",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-74",
+            "title": "CVS Pharmacy Prescription",
+            "type": "debit",
+            "amount": 42.1,
+            "date": "2020-04-12",
+            "category": "Health",
+            "status": "Completed"
+      },
+      {
+            "id": "tx-75",
+            "title": "Memorial Health Systems Direct Deposit",
+            "type": "credit",
+            "amount": 48500,
+            "date": "2020-03-15",
+            "category": "Medical Payroll",
+            "status": "Completed"
+      }
+];
 
     window.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
@@ -707,7 +1322,7 @@
       document.getElementById("loginScreen").classList.remove("hidden");
     }
 
-    // Step 3: Transaction List through September 2026 (60 items)
+    // Step 3: Transaction List through December 2024 (75 items)
     let currentFilter = 'all';
 
     function filterTransactions(type) {
